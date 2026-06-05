@@ -1,0 +1,27 @@
+# Variabili d'ambiente — MAI committare
+*.env
+*.env.example
+*.env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Node / React Native (mobile futuro)
+node_modules/
+.expo/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
