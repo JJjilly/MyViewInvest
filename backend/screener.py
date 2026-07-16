@@ -20,20 +20,15 @@ load_dotenv()
 SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_KEY = os.environ["SUPABASE_KEY"]
 
+def get_universe():
+    df = pd.read_csv("gen/tickers.csv")
+    return df["Ticker"].tolist()
+
+tickers = get_universe()
+
 # Universo di azioni da analizzare
 # Modifica liberamente: aggiungi/rimuovi ticker
-UNIVERSE = [
-    # USA — Tech
-    "AAPL", "MSFT", "GOOGL", "NVDA", "META", "AMZN", "AMD", "CRM",
-    # USA — Finance
-    "JPM", "V", "MA",
-    # USA — Healthcare
-    "UNH", "JNJ", "LLY",
-    # USA — Consumer
-    "COST", "NKE", "MCD",
-    # Europa (suffisso borsa)
-    "SAP.DE", "ASML.AS", "MC.PA",
-]
+
 
 # ---------------------------------------------------------------------------
 # Scoring — modifica i pesi e le soglie come vuoi
@@ -168,14 +163,14 @@ def passa_filtro(row: dict) -> bool:
 
 def main():
     print(f"\n🍉 Screener avviato — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    print(f"   Universo: {len(UNIVERSE)} ticker\n")
+    print(f"   Universo: {len(tickers)} ticker\n")
 
     supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
     oggi = date.today().isoformat()
 
     risultati = []
 
-    for ticker in UNIVERSE:
+    for ticker in tickers:
         print(f"  → {ticker}", end=" ")
         dati = fetch_dati(ticker)
         if dati is None:
